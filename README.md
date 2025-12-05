@@ -18,6 +18,14 @@ npm start
 yarn start
 ```
 
+## create a 'environment.ts' file
+export default {
+    apiUrl:'',
+    frontend:'',
+    secretkey:''
+}
+
+
 ## Step 2: Build and run your app
 
 With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
