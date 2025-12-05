@@ -49,9 +49,11 @@ react {
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
+    hermesEnabled = true
 
     /* Autolinking */
     autolinkLibrariesWithApp()
+   
 }
 
 /**
@@ -100,11 +102,23 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
+            // shrinkResources true
+            // minifyEnabled true   // turn on code shrinking
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+      
+
     }
+    splits {
+    abi {
+        enable true
+        reset()
+        include "armeabi-v7a", "arm64-v8a"
+        universalApk false
+    }
+}
 }
 
 dependencies {
