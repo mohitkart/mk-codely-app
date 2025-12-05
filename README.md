@@ -26,6 +26,21 @@ export default {
 }
 
 
+## create a app build
+cd android
+./gradlew assembleRelease
+
+output : android/app/build/outputs/apk/release/app-release.apk
+
+
+## For AAB (Play Store)
+For AAB (Play Store)
+cd android
+./gradlew bundleRelease
+
+output: android/app/build/outputs/bundle/release/app-release.aab
+
+
 ## Step 2: Build and run your app
 
 With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
