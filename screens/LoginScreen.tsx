@@ -3,11 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "reac
 import { loginUser } from "../services/authService";
 import { useNavigation } from "@react-navigation/native";
 import { NativeScreenProp } from "../navigation/AppNavigator";
+import { setUserStorage } from "../utills/storage";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeScreenProp>();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("mohitkartweb@gmail.com");
+  const [password, setPassword] = useState("mohit@webart");
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
@@ -21,6 +22,10 @@ const LoginScreen = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = await loginUser({ email, password });
 
+      const data = response.data
+      setUserStorage(data)
+
+
       Alert.alert("Success", "Login Successful!");
 
       navigation.replace("Home"); // Navigate to Home
@@ -30,8 +35,6 @@ const LoginScreen = () => {
       setLoading(false);
     }
   };
-
-  console.log("Login Rendered")
 
   return (
     <View style={styles.container}>
