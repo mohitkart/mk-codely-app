@@ -136,6 +136,7 @@ const Header = () => {
                         />
                         <View style={styles.badge} />
                     </TouchableOpacity>
+                    {user?<>
                     <TouchableOpacity style={styles.actionButton}
                         onPress={() => navigation.replace('Settings')}
                     >
@@ -146,6 +147,8 @@ const Header = () => {
                             width={24}
                         />
                     </TouchableOpacity>
+                    </>:<></>}
+                    
                 </View>
             </View>
 

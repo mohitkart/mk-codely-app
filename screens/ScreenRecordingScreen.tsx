@@ -13,8 +13,12 @@ import {
     Animated,
     Dimensions,
     Modal,
+    Linking,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NativeModules } from "react-native";
+const { ScreenRecorder } = NativeModules;
+
 
 const { height } = Dimensions.get('window');
 
@@ -124,7 +128,7 @@ const ScreenRecordingScreen = () => {
     };
 
     // Start recording
-    const startRecording = () => {
+    const startRecording =async () => {
         setIsRecording(true);
         setRecordingTime(0);
         setRecordingProgress(0);
@@ -136,6 +140,16 @@ const ScreenRecordingScreen = () => {
             useNativeDriver: false,
         }).start();
 
+        try {
+            const res = await ScreenRecorder.startRecording();
+            console.log("start recording 22", res);
+            const path=res
+            Linking.openURL("file://" + path);
+        } catch (e) {
+            console.log("Error:", e);
+        }
+
+
         // Simulate recording start
         Alert.alert(
             'Recording Started',
@@ -145,11 +159,24 @@ const ScreenRecordingScreen = () => {
     };
 
     // Pause/Resume recording
-    const togglePause = () => {
+    const togglePause = async () => {
         setIsPaused(!isPaused);
         if (!isPaused) {
             Alert.alert('Recording Paused', 'Recording has been paused.');
+            try {
+                const res = await ScreenRecorder.pauseRecording();
+                console.log("start pauseRecording", res);
+            } catch (e) {
+                console.log("Error:", e);
+            }
+
         } else {
+            try {
+                const res = await ScreenRecorder.resumeRecording();
+                console.log("start resumeRecording", res);
+            } catch (e) {
+                console.log("Error:", e);
+            }
             Alert.alert('Recording Resumed', 'Recording has been resumed.');
         }
     };
@@ -164,7 +191,7 @@ const ScreenRecordingScreen = () => {
                 {
                     text: 'Stop',
                     style: 'destructive',
-                    onPress: () => {
+                    onPress: async () => {
                         setIsRecording(false);
                         setIsPaused(false);
                         setRecordingTime(0);
@@ -175,6 +202,10 @@ const ScreenRecordingScreen = () => {
                             duration: 300,
                             useNativeDriver: false,
                         }).start();
+
+
+                        const res = await ScreenRecorder.stopRecording();
+                        console.log("recording res",res);
 
                         // Add new recording to list
                         const newRecording = {
